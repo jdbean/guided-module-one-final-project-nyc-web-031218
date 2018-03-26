@@ -1,0 +1,12 @@
+user1 = User.create!(name: "Name1", username: "name1")
+user2 = User.create!(name: "Name2", username: "name1")
+user3 = User.create(name: "Name3", username: "name1")
+user4 = User.create(name: "Name4", username: "name1")
+user5 = User.create(name: "Name5", username: "name1")
+user6 = User.create(name: "Name6", username: "name1")
+
+calendar1 = Calendar.create(name: "Cal1", unique_name: "cal1", description: "This is cal1")
+calendar2 = Calendar.create(name: "Cal2", unique_name: "cal2", description: "This is cal2")
+calendar3 = Calendar.create(name: "Cal3", unique_name: "cal3", description: "This is cal3")
+calendar4 = Calendar.create(name: "Cal4", unique_name: "cal4", description: "This is cal4")
+calendar5 = Calendar.create(name: "Cal5", unique_name: "cal5", description: "This is cal5")

@@ -7,7 +7,7 @@ class CreateEvents < ActiveRecord::Migration[5.0]
       t.datetime :start_time
       t.datetime :end_time
       t.integer :calendar_id
-      t.integer :user_id #May become owner_id?
+      # t.integer :user_id #May become owner_id?
     end
   end
 end

@@ -4,6 +4,7 @@ class CreateCalendars < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :unique_name
       t.string :description
+      t.integer :user_id
     end
   end
 end
