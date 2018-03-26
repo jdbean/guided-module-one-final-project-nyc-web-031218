@@ -4,7 +4,7 @@ end
 
 def prompt_user
   users_array = User.all.map { |o| o.username} # move to method of User model
-  users = ask("Select users: ", users_array) do |q|
+  ask("Select users: ", users_array) do |q|
     q.readline = true
   end
 end
