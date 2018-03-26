@@ -9,3 +9,5 @@ calendar1 = Calendar.create(name: "Cal1", unique_name: "cal1", description: "Thi
 calendar2 = Calendar.create(name: "Cal2", unique_name: "cal2", description: "This is cal2", user_id: 2)
 calendar3 = Calendar.create(name: "Cal3", unique_name: "cal3", description: "This is cal3", user_id: 3)
 calendar4 = Calendar.create(name: "Cal4", unique_name: "cal4", description: "This is cal4", user_id: 4)
+
+event1 = Event.create(name: "Birthday", start_time: DateTime.new(2018, 3, 26.5),end_time: DateTime.new(2018, 3, 26.75), calendar_id: 1)
