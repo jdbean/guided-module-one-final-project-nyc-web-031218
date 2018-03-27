@@ -14,7 +14,10 @@ def run
         when :Quit
           goodbye
         when menu = :"View Agenda"
-          user.view_agenda
+          event = user.view_agenda
+          if event != "Return to Main Menu"
+            event.view_in_detail
+          end
           #{FIXME} ready for implementation of control flow
         when menu = :"New Calendar"
           user.new_calendar

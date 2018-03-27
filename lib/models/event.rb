@@ -5,6 +5,27 @@ class Event < ActiveRecord::Base
     self.calendar.user
   end
 
+  def put_event_details_in_array
+    arr = []
+    arr << "Name: #{self.name}"
+    arr << "Description: #{self.description}"
+    arr << "Location: #{self.location}"
+    arr << "Start Time: #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date})"
+    arr << "End Time: #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date})"
+    arr << "Calendar: #{self.calendar.name}"
+  end
+
+  def view_in_detail
+    arr = put_event_details_in_array
+    choose do |menu|
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  "
+      menu.choice(:"Return to Main Menu")
+      arr.each do |s|
+        menu.choice(s)
+      end
+    end
+  end
+
   def edit_event
     hash = {self.name => "Name: #{self.name}",
     self.description => "Description: #{self.description}",
