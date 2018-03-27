@@ -54,8 +54,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def
-    #{FIXME} POTENTIALLY TO GO BACK?
+  def new_calendar
+    
       entry = {}
       say("Enter the following information:")
       entry[:name] = ask("Name?  ")
