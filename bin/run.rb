@@ -15,6 +15,7 @@ def run
           goodbye
         when menu = :"View Agenda"
           user.view_agenda
+          #{FIXME} ready for implementation of control flow
         when menu = :"New Calendar"
           user.new_calendar
         when menu = :"Create Event"

@@ -2,14 +2,42 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :events, through: :calendars
 
-  def view_agenda
-    eve = events.sort_by do |event|
+  def event_object_array_setup
+    events.sort_by do |event|
       event.start_time
     end
-    eve[0..9].each_with_index do |event, index|
-      puts "#{index+1}) #{event.name} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date})"
+  end
+
+  def event_string_array_setup
+    eve = event_object_array_setup
+    eve[0..9].map do |event|
+      "#{event.name} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date})"
     end
-    return eve
+  end
+
+  def agenda_menu_prompt(strarr)
+    choose do |menu|
+      menu.prompt = "Please select from above or type 1 to return to main_menu:  "
+      #{FIXME} NEED better implementation for return to main menu"
+      menu.choice(:"Return to Main Menu")
+      strarr.each do |s|
+        menu.choice(s)
+      end
+
+    end
+  end
+
+  def event_string_to_index(str, strarr)
+    strarr.index(str)
+  end
+
+
+  def view_agenda
+    objarr = event_object_array_setup
+    strarr = event_string_array_setup
+    str = agenda_menu_prompt(strarr)
+    objarr[event_string_to_index(str, strarr)]
+    #{FIXME} NEED TO ACCOUNT FOR RETURN TO MAIN MENU OPTION]
   end
 
   def view_in_detail(num)
@@ -26,7 +54,7 @@ class User < ActiveRecord::Base
 
   def main_menu
     choose do |menu|
-      menu.prompt = "Please select from below  "
+      menu.prompt = "Please select from above:  "
 
       menu.choice(:"View Agenda")
       menu.choice(:"New Calendar")

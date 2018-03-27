@@ -4,7 +4,7 @@ end
 
 def new_or_login_prompt
   choose do |menu|
-    menu.prompt = "Please select from below to create or login to your account  "
+    menu.prompt = "Please select from above to create or login to your account:  "
 
     menu.choice(:"New Account")
     menu.choice(:Login)
