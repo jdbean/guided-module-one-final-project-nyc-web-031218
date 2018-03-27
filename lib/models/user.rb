@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def calendars_to_name
+    calendars.map { |c| c.name  }
+  end
+
   def event_string_array_setup
     eve = event_object_array_setup
     eve[0..9].map do |event|
@@ -55,15 +59,29 @@ class User < ActiveRecord::Base
   end
 
   def new_calendar
-    
+    #{FIXME} POTENTIALLY ALLOW TO GO BACK
       entry = {}
-      say("Enter the following information:")
-      entry[:name] = ask("Name?  ")
-      entry[:description] = ask("Enter a description") do |q|
+      say("Enter the following information: ")
+      entry[:name] = ask("Name? ")
+      entry[:description] = ask("Enter a description: ") do |q|
         q.whitespace = :strip_and_collapse
       end
       entry[:user_id] = self.id
       Calendar.create(entry)
   end
 
+  def which_calendar_to_add
+    choose do |menu|
+      menu.prompt = "Please select the calendar to add:  "
+      calendars_to_name.each do |c|
+        menu.choice(c)
+      end
+    end
+  end
+
+  def new_event
+    cal = which_calendar_to_add
+    int = calendars_to_name.index(cal)
+    calendars[int].add_event
+  end
 end
