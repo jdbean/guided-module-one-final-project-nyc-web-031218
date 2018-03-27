@@ -1,6 +1,24 @@
 def welcome
- puts "Hi, welcome"
+ puts "Hi! Welcome to the agenda manager cli!"
 end
+
+def new_or_login_prompt
+  # The new and improved choose()...
+  choose do |menu|
+    menu.prompt = "Please select from below to create or login to your account  "
+
+    menu.choice(:"New Account")
+    menu.choice(:Login)
+    menu.choice(:Quit)
+    menu.default = :Login
+  end
+end
+
+def goodbye
+  puts "Thanks for using the Agenda Manager cli."
+  puts "Please come back soon to check your schedule."
+end
+
 
 def prompt_user
   # users_array = User.all.map { |o| o.username} # move to method of User model
@@ -9,7 +27,7 @@ def prompt_user
   # end
 end
 
-def options_prompt
+def main_menu
   # Fill out prompt generic prompt options = view agenda, change user, quit, create calendar, create new event
 end
 
