@@ -3,6 +3,8 @@ require_relative '../config/environment'
 def run
   choice = new_or_login_prompt
   case choice
+    when :Quit
+      goodbye
     when :"New Account"
     User.create_new_user
     when :login
@@ -10,6 +12,8 @@ def run
       user = User.find_by(username: user)
       menu = user.main_menu
       case menu
+        when :Quit
+          goodbye
         when menu = :"View Agenda"
           user.view_agenda
         when menu = :"New Calendar"

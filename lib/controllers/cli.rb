@@ -8,10 +8,15 @@ def new_or_login_prompt
     menu.prompt = "Please select from below to create or login to your account  "
 
     menu.choice(:"New Account")
-    menu.choices(:Login)
-
+    menu.choice(:Login)
+    menu.choice(:Quit)
     menu.default = :Login
   end
+end
+
+def goodbye
+  puts "Thanks for using the Agenda Manager cli."
+  puts "Please come back soon to check your schedule."
 end
 
 
