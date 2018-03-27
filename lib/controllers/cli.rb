@@ -3,10 +3,10 @@ def welcome
 end
 
 def prompt_user
-  users_array = User.all.map { |o| o.username} # move to method of User model
-  ask("Select users: ", users_array) do |q|
-    q.readline = true
-  end
+  # users_array = User.all.map { |o| o.username} # move to method of User model
+  # ask("Select users: ", users_array) do |q|
+  #   q.readline = true
+  # end
 end
 
 def options_prompt
@@ -29,3 +29,7 @@ end
 def prompt_edit_or_return
   # agenda item details should prompt to edit or return to agenda
 end
+
+# def User.create_new_user
+#
+# end

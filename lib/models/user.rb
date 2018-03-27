@@ -23,6 +23,4 @@ class User < ActiveRecord::Base
     puts "End Time: #{chosen_event.end_time.strftime("%H:%M")} (#{chosen_event.end_time.to_date})"
     return chosen_event
   end
-
-
 end
