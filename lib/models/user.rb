@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
       strarr.each do |s|
         menu.choice(s)
       end
-
     end
   end
 
@@ -38,11 +37,15 @@ class User < ActiveRecord::Base
 
 
   def view_agenda
-    objarr = event_object_array_setup
     strarr = event_string_array_setup
     str = agenda_menu_prompt(strarr)
-    objarr[event_string_to_index(str, strarr)]
-    #{FIXME} NEED TO ACCOUNT FOR RETURN TO MAIN MENU OPTION]
+  end
+
+  def select_agenda_item(str)
+    objarr = event_object_array_setup
+    strarr = event_string_array_setup
+    event = objarr[event_string_to_index(str, strarr)]
+    # event.detail_menu
   end
 
   def main_menu

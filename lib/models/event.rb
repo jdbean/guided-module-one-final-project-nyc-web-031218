@@ -1,11 +1,14 @@
 class Event < ActiveRecord::Base
   belongs_to :calendar
 
+  KEY_ARRAY = [:name, :description, :location, :start_time, :end_time, :calendar]
+
+
   def user
     self.calendar.user
   end
 
-  def put_event_details_in_array
+  def put_event_detail_strings_in_array
     arr = []
     arr << "Name: #{self.name}"
     arr << "Description: #{self.description}"
@@ -15,8 +18,18 @@ class Event < ActiveRecord::Base
     arr << "Calendar: #{self.calendar.name}"
   end
 
-  def view_in_detail
-    arr = put_event_details_in_array
+
+  def detail_edit(str)
+    index = put_event_detail_strings_in_array.index(str)
+    ans = STDIN.gets.chomp
+    key = KEY_ARRAY[index]
+    self[key] = ans
+    self.save
+    #{FIXME} implement highline santized editing
+  end
+
+  def detail_menu
+    arr = put_event_detail_strings_in_array
     choose do |menu|
       menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  "
       menu.choice(:"Return to Main Menu")

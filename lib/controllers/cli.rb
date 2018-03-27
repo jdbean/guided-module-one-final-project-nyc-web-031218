@@ -31,9 +31,45 @@ def prompt_user
   end
 end
 
-def main_menu
-  # Fill out prompt generic prompt options = view agenda, change user, quit, create calendar, create new event
+def main_menu(user)
+  puts "Welcome #{user.name}!"
+  menu = user.main_menu
+  case menu
+    when :Quit
+      goodbye
+    when menu = :"View Agenda"
+      str = user.view_agenda
+      if str == :"Return to Main Menu"
+        main_menu(user)
+      else
+        view_event_detail(str, user)
+      end
+    when menu = :"New Calendar"
+      user.new_calendar
+    when menu = :"Create Event"
+      user.new_event
+      main_menu(user)
+    when menu = :"Change User"
+      run
+  end
 end
+
+def view_event_detail(str, user)
+  event = user.select_agenda_item(str)
+  detail = event.detail_menu
+  if detail == :"Return to Main Menu"
+    main_menu(user)
+  else
+    event.detail_edit(detail)
+    view_event_detail(str, user)
+  end
+end
+
+
+# def edit_detail
+#   event.view_in_detail
+# end
+#===============================
 
 def view_user_agenda(user)
   # gather's User's calendars
