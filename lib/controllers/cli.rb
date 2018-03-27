@@ -3,7 +3,6 @@ def welcome
 end
 
 def new_or_login_prompt
-  # The new and improved choose()...
   choose do |menu|
     menu.prompt = "Please select from below to create or login to your account  "
 
@@ -14,17 +13,22 @@ def new_or_login_prompt
   end
 end
 
+
+
 def goodbye
   puts "Thanks for using the Agenda Manager cli."
   puts "Please come back soon to check your schedule."
 end
 
+def user_login
+   User.find_by(username: prompt_user)
+end
 
 def prompt_user
-  # users_array = User.all.map { |o| o.username} # move to method of User model
-  # ask("Select users: ", users_array) do |q|
-  #   q.readline = true
-  # end
+  users_array = User.all.map { |o| o.username} # move to method of User model
+  ask("Select users: ", users_array) do |q|
+    q.readline = true
+  end
 end
 
 def main_menu

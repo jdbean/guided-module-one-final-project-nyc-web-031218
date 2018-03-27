@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :events, through: :calendars
 
-  def view_user_agenda
+  def view_agenda
     eve = events.sort_by do |event|
       event.start_time
     end
@@ -23,4 +23,18 @@ class User < ActiveRecord::Base
     puts "End Time: #{chosen_event.end_time.strftime("%H:%M")} (#{chosen_event.end_time.to_date})"
     return chosen_event
   end
+
+  def main_menu
+    choose do |menu|
+      menu.prompt = "Please select from below  "
+
+      menu.choice(:"View Agenda")
+      menu.choice(:"New Calendar")
+      menu.choice(:"Create Event")
+      menu.choice(:"Change User")
+      menu.choice(:Quit)
+      # menu.default = :Login
+    end
+  end
+
 end

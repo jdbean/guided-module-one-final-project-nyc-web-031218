@@ -6,10 +6,9 @@ def run
     when :Quit
       goodbye
     when :"New Account"
-    User.create_new_user
-    when :login
-      user = prompt_user
-      user = User.find_by(username: user)
+      User.create_new_user
+    when :Login
+      user = user_login
       menu = user.main_menu
       case menu
         when :Quit
@@ -19,9 +18,9 @@ def run
         when menu = :"New Calendar"
           user.new_calendar
         when menu = :"Create Event"
-          user.create_new_event
+          user.new_event
         when menu = :"Change User"
-          #THIS OPTION NEEDS TO RESTART THE RUN COMMAND FLOW
+          run
       end
     end
 end
