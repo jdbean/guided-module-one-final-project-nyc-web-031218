@@ -14,15 +14,20 @@ def new_or_login_prompt
 end
 
 
+def auth(user)
+  counter = 3
+  while counter > 0
+    password = ask("Enter your password:  ".colorize(:yellow)) { |q| q.echo = "*" }
+    if password == user.password
+      return user
+    end
+    counter -= 1
+  end
+end
 
 def goodbye
   puts "Thanks for using the Agenda Manager cli.".colorize(:green)
   puts "Please come back soon to check your schedule.".colorize(:red)
-end
-
-def user_login
-   user = User.find_by(username: prompt_user)
-   user.auth
 end
 
 def prompt_user
@@ -36,7 +41,7 @@ def main_menu(user)
   puts "Welcome #{user.name}!".colorize(:green)
   menu = user.main_menu
   case menu
-  when "Quit".colorize(:red)
+    when "Quit".colorize(:red)
       goodbye
     when menu = :"View Agenda"
       choice = user.view_agenda
