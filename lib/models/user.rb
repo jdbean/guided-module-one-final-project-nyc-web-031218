@@ -10,21 +10,21 @@ class User < ActiveRecord::Base
     end
   end
 
-  def event_object_array_setup
-    #{FIXME}EVENTS SHOULD BE AFTER TIME.NOW
-    events.sort_by do |event|
-      event.start_time
-    end
-  end
-
   def calendars_to_name
     calendars.map { |c| c.name  }
+  end
+
+  def event_object_array_setup
+    #{FIXME}EVENTS SHOULD BE AFTER TIME.NOW
+    self.events.sort_by do |event|
+      event.start_time
+    end
   end
 
   def event_string_array_setup
     eve = event_object_array_setup
     eve[0..9].map do |event|
-      "#{event.name} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date})"
+      "#{event.name} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date} - #{event.calendar.name})"
     end
   end
 
@@ -43,10 +43,9 @@ class User < ActiveRecord::Base
     strarr.index(str)
   end
 
-
   def view_agenda
     strarr = event_string_array_setup
-    str = agenda_menu_prompt(strarr)
+    agenda_menu_prompt(strarr)
   end
 
   def select_agenda_item(str)
@@ -96,5 +95,16 @@ class User < ActiveRecord::Base
     cal = which_calendar_to_add
     int = calendars_to_name.index(cal)
     calendars[int].add_event
+  end
+
+  def self.create_new_user
+    entry = {}
+    say("Enter the following information: ".colorize(:yellow))
+    entry[:name] = ask("Enter your name: ".colorize(:yellow))
+    entry[:username] = ask("Enter a username: ".colorize(:yellow)) do |q|
+      q.whitespace = :strip_and_collapse
+    end
+    entry[:password] = ask("Enter a password: ".colorize(:yellow))
+    User.create(entry)
   end
 end

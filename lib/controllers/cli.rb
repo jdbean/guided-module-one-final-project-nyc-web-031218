@@ -47,6 +47,7 @@ def main_menu(user)
       end
     when menu = :"New Calendar"
       user.new_calendar
+      main_menu(user)
     when menu = :"Create Event"
       user.new_event
       main_menu(user)

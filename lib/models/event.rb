@@ -3,7 +3,6 @@ class Event < ActiveRecord::Base
 
   KEY_ARRAY = [:name, :description, :location, :start_time, :end_time, :calendar]
 
-
   def user
     self.calendar.user
   end
@@ -18,14 +17,23 @@ class Event < ActiveRecord::Base
     arr << "Calendar: #{self.calendar.name}"
   end
 
-
   def detail_edit(str)
     index = put_event_detail_strings_in_array.index(str)
-    ans = STDIN.gets.chomp
     key = KEY_ARRAY[index]
-    self[key] = ans
-    self.save
-    #{FIXME} implement highline santized editing
+    binding.pry
+    entry = {}
+    say("Enter the new edit for #{str}".colorize(:yellow))
+    entry[key] = ask("New Edit: ".colorize(:yellow))
+    binding.pry
+    self.update(entry)
+    binding.pry
+
+    #
+    # Calendar.create(entry)
+    #
+    # ans = STDIN.gets.chomp
+    # self.update(key "#{ans}")
+      #{FIXME} implement highline santized editing
   end
 
   def detail_menu
@@ -39,19 +47,19 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def edit_event
-    hash = {self.name => "Name: #{self.name}",
-    self.description => "Description: #{self.description}",
-    self.location => "Location: #{self.location}",
-    self.start_time => "Time: #{self.start_time} to #{self.end_time}",
-    self.calendar => "Calendar: #{self.calendar.name}"}
-
-    hash.each_with_index do |(key,value), index|
-      puts "#{index + 1 }) #{value}"
-    end
-    puts "Which field would you like to edit?".colorize(:yellow)
-    num = STDIN.gets.chomp
-  end
+  # def edit_event
+  #   hash = {self.name => "Name: #{self.name}",
+  #   self.description => "Description: #{self.description}",
+  #   self.location => "Location: #{self.location}",
+  #   self.start_time => "Time: #{self.start_time} to #{self.end_time}",
+  #   self.calendar => "Calendar: #{self.calendar.name}"}
+  #
+  #   hash.each_with_index do |(key,value), index|
+  #     puts "#{index + 1 }) #{value}"
+  #   end
+  #   puts "Which field would you like to edit?".colorize(:yellow)
+  #   num = STDIN.gets.chomp
+  # end
 
 
 end
