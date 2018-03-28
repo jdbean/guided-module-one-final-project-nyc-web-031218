@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
     strarr = event_string_array_setup
     event = objarr[event_string_to_index(str, strarr)]
     # event.detail_menu
+    #{FIXME} confirm that this command is actually working
   end
 
   def main_menu
