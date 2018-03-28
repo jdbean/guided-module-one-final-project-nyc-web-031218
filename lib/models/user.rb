@@ -101,6 +101,7 @@ class User < ActiveRecord::Base
   end
 
   def self.create_new_user
+    users_array = User.all.map { |o| o.username}
     entry = {}
     say("Enter the following information: ".colorize(:yellow))
     puts ""
@@ -108,7 +109,13 @@ class User < ActiveRecord::Base
     entry[:username] = ask("Enter a username: ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:password] = ask("Enter a password: ".colorize(:yellow), String)
-    User.create(entry)
+    entry[:password] = ask("Enter a password: ".colorize(:yellow), String) { |q| q.echo = "*" }
+    if users_array.include?(entry[:username])
+      puts "SORRY, That username is already in use. Please try another name".colorize(:red)
+      puts "==================="
+      self.create_new_user
+    else
+      User.create(entry)
+    end
   end
 end
