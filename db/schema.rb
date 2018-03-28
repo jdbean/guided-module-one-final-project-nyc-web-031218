@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326191813) do
+ActiveRecord::Schema.define(version: 20180328113908) do
 
   create_table "calendars", force: :cascade do |t|
     t.string "name"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20180326191813) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "username"
+    t.string "password"
   end
 
 end
