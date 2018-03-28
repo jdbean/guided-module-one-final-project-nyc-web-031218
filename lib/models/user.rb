@@ -2,6 +2,14 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :events, through: :calendars
 
+  def auth
+    password = ask("Enter your password:  ") { |q| q.echo = "*" }
+    if password == self.password
+      self
+    else auth
+    end
+  end
+
   def event_object_array_setup
     #{FIXME}EVENTS SHOULD BE AFTER TIME.NOW
     events.sort_by do |event|

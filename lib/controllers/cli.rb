@@ -21,7 +21,8 @@ def goodbye
 end
 
 def user_login
-   User.find_by(username: prompt_user)
+   user = User.find_by(username: prompt_user)
+   user.auth
 end
 
 def prompt_user
