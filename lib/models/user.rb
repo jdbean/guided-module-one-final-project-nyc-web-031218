@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
   def agenda_menu_prompt(strarr)
     choose do |menu|
       menu.prompt = "Please select from above or type 1 to return to main menu:  ".colorize(:yellow)
-      #{FIXME} NEED better implementation for return to main menu"
       menu.choice("Return to Main Menu".colorize(:green))
       strarr.each do |s|
         menu.choice(s)
