@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
   def detail_menu
     arr = put_event_detail_strings_in_array
     choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  "
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
       menu.choice(:"Return to Main Menu")
       arr.each do |s|
         menu.choice(s)
@@ -49,7 +49,7 @@ class Event < ActiveRecord::Base
     hash.each_with_index do |(key,value), index|
       puts "#{index + 1 }) #{value}"
     end
-    puts "Which field would you like to edit?"
+    puts "Which field would you like to edit?".colorize(:yellow)
     num = STDIN.gets.chomp
   end
 

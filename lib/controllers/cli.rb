@@ -4,7 +4,7 @@ end
 
 def new_or_login_prompt
   choose do |menu|
-    menu.prompt = "Please select from above to create or login to your account:  "
+    menu.prompt = "Please select from above to create or login to your account:  ".colorize(:yellow)
 
     menu.choice(:"New Account")
     menu.choice(:Login)
@@ -27,7 +27,7 @@ end
 
 def prompt_user
   users_array = User.all.map { |o| o.username} # move to method of User model
-  ask("Select users: ", users_array) do |q|
+  ask("Select users: ".colorize(:yellow), users_array) do |q|
     q.readline = true
   end
 end

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :events, through: :calendars
 
   def auth
-    password = ask("Enter your password:  ") { |q| q.echo = "*" }
+    password = ask("Enter your password:  ".colorize(:yellow)) { |q| q.echo = "*" }
     if password == self.password
       self
     else auth
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
 
   def agenda_menu_prompt(strarr)
     choose do |menu|
-      menu.prompt = "Please select from above or type 1 to return to main menu:  "
+      menu.prompt = "Please select from above or type 1 to return to main menu:  ".colorize(:yellow)
       #{FIXME} NEED better implementation for return to main menu"
       menu.choice(:"Return to Main Menu")
       strarr.each do |s|
@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
 
   def main_menu
     choose do |menu|
-      menu.prompt = "Please select from above:  "
+      menu.prompt = "Please select from above:  ".colorize(:yellow)
 
       menu.choice(:"View Agenda")
       menu.choice(:"New Calendar")
@@ -73,9 +73,9 @@ class User < ActiveRecord::Base
   def new_calendar
     #{FIXME} POTENTIALLY ALLOW TO GO BACK
       entry = {}
-      say("Enter the following information: ")
-      entry[:name] = ask("Name? ")
-      entry[:description] = ask("Enter a description: ") do |q|
+      say("Enter the following information: ".colorize(:yellow))
+      entry[:name] = ask("Name? ".colorize(:yellow))
+      entry[:description] = ask("Enter a description: ".colorize(:yellow)) do |q|
         q.whitespace = :strip_and_collapse
       #{FIXME} Add :color entry and migration, Choose from String.colors array
       end
@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
 
   def which_calendar_to_add
     choose do |menu|
-      menu.prompt = "Please select the calendar to add:  "
+      menu.prompt = "Please select the calendar to add:  ".colorize(:yellow)
       calendars_to_name.each do |c|
         menu.choice(c)
       end

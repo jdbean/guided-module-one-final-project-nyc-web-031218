@@ -4,16 +4,16 @@ class Calendar < ActiveRecord::Base
 
   def add_event
     entry = {}
-    say("Enter the following information: ")
-    entry[:name] = ask("Name?  ")
-    entry[:description] = ask("Enter a description: ") do |q|
+    say("Enter the following information: ".colorize(:yellow))
+    entry[:name] = ask("Name?  ".colorize(:yellow))
+    entry[:description] = ask("Enter a description: ".colorize(:yellow)) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:location] = ask("Enter a location: ") do |q|
+    entry[:location] = ask("Enter a location: ".colorize(:yellow)) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:start_time] = ask("Starting Time? ", DateTime)
-    entry[:end_time] = ask("Ending Time? ", DateTime)
+    entry[:start_time] = ask("Starting Time? ".colorize(:yellow), DateTime)
+    entry[:end_time] = ask("Ending Time? ".colorize(:yellow), DateTime)
     entry[:calendar_id] = self.id
     Event.create(entry)
 
