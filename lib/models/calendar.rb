@@ -5,7 +5,7 @@ class Calendar < ActiveRecord::Base
   def add_event
     entry = {}
     say("Enter the following information: ".colorize(:yellow))
-    entry[:name] = ask("Name?  ".colorize(:yellow))
+    entry[:name] = ask("Name?  ".colorize(:yellow), String)
     entry[:description] = ask("Enter a description: ".colorize(:yellow)) do |q|
       q.whitespace = :strip_and_collapse
     end
