@@ -26,7 +26,6 @@ class User < ActiveRecord::Base
   def agenda_menu_prompt(strarr)
     choose do |menu|
       menu.prompt = "Please select from above or type 1 to return to main menu:  ".colorize(:yellow)
-      #{FIXME} NEED better implementation for return to main menu"
       menu.choice("Return to Main Menu".colorize(:green))
       strarr.each do |s|
         menu.choice(s)
@@ -73,8 +72,9 @@ class User < ActiveRecord::Base
       say("Enter the following information: ".colorize(:yellow))
       puts ""
       entry[:name] = ask("Name? ".colorize(:yellow), String)
-      entry[:description] = ask("Enter a description: ".colorize(:yellow), String) do |q|
+      entry[:description] = ask("Enter a description (limit 70 characters): ".colorize(:yellow), String) do |q|
         q.whitespace = :strip_and_collapse
+        q.limit = 70
       end
       entry[:user_id] = self.id
       colors = prepare_colors_string
