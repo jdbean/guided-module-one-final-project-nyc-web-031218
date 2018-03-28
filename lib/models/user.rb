@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
       say("Enter the following information: ".colorize(:yellow))
       puts ""
       entry[:name] = ask("Name? ".colorize(:yellow), String)
-      entry[:description] = ask("Enter a description: ".colorize(:yellow), String) do |q|
+      entry[:description] = ask("Enter a description (limit 70 characters): ".colorize(:yellow), String) { |q| q.limit = 70 } do |q|
         q.whitespace = :strip_and_collapse
       end
       entry[:user_id] = self.id
