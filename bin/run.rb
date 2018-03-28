@@ -7,12 +7,15 @@ def run
         goodbye
     when :"New Account"
       User.create_new_user
+      puts "==================="
+      run
     when :Login
       user = User.find_by(username: prompt_user)
       if auth(user)
         main_menu(user)
       else
         puts "TOO MANY INCORRECT LOGIN ATTEMPTS".colorize(:red)
+        puts "==================="
         run
       end
   end
