@@ -28,6 +28,7 @@ end
 def goodbye
   puts "Thanks for using the Agenda Manager cli.".colorize(:green)
   puts "Please come back soon to check your schedule.".colorize(:red)
+  abort
 end
 
 def prompt_user
