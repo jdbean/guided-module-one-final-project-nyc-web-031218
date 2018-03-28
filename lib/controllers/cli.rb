@@ -1,5 +1,5 @@
 def welcome
- puts "Hi! Welcome to the agenda manager cli!"
+ puts "Hi! Welcome to the agenda manager cli!".colorize(:green)
 end
 
 def new_or_login_prompt
@@ -16,8 +16,8 @@ end
 
 
 def goodbye
-  puts "Thanks for using the Agenda Manager cli."
-  puts "Please come back soon to check your schedule."
+  puts "Thanks for using the Agenda Manager cli.".colorize(:green)
+  puts "Please come back soon to check your schedule.".colorize(:red)
 end
 
 def user_login
@@ -32,7 +32,7 @@ def prompt_user
 end
 
 def main_menu(user)
-  puts "Welcome #{user.name}!"
+  puts "Welcome #{user.name}!".colorize(:green)
   menu = user.main_menu
   case menu
     when :Quit

@@ -68,6 +68,7 @@ class User < ActiveRecord::Base
       entry[:name] = ask("Name? ")
       entry[:description] = ask("Enter a description: ") do |q|
         q.whitespace = :strip_and_collapse
+      #{FIXME} Add :color entry and migration, Choose from String.colors array
       end
       entry[:user_id] = self.id
       Calendar.create(entry)
