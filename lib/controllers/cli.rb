@@ -64,6 +64,11 @@ def view_event_detail(str, user)
   if detail == "Return to Main Menu".colorize(:green)
     main_menu(user)
   elsif detail == "Delete Event".colorize(:red)
+    binding.pry
+    Event.destroy(event.id)
+    binding.pry
+    user.save
+    main_menu(user)
     #{FIXME} IMPLEMENT
   else
     updated_str = event.detail_edit(detail)
