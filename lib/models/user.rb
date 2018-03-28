@@ -2,15 +2,16 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :events, through: :calendars
 
-
-
   def calendars_to_name
     calendars.map { |c| c.name.colorize(c.color.to_sym)  }
   end
 
   def event_object_array_setup
     #{FIXME}EVENTS SHOULD BE AFTER TIME.NOW
-    self.events.sort_by do |event|
+    future_events = self.events.select do |event|
+      event.start_time > DateTime.now
+    end
+    future_events.sort_by do |event|
       event.start_time
     end
   end

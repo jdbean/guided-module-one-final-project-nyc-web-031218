@@ -12,7 +12,7 @@ calendar2 = Calendar.create(name: "Cal2", description: "This is cal2", user_id: 
 calendar3 = Calendar.create(name: "Cal3", description: "This is cal3", user_id: 3, color: "light_blue")
 calendar4 = Calendar.create(name: "Cal4", description: "This is cal4", user_id: 4, color: "light_cyan")
 
-event1 = Event.create(name: "Birthday1", start_time: DateTime.new(2018, 3, 26.5),end_time: DateTime.new(2018, 3, 26.75), calendar_id: 1)
-event3 = Event.create(name: "Birthday3", start_time: DateTime.new(2018, 3, 23.45),end_time: DateTime.new(2018, 3, 20.5), calendar_id: 1)
-event2 = Event.create(name: "Birthday2", start_time: DateTime.new(2018, 3, 25.25),end_time: DateTime.new(2018, 3, 23.25), calendar_id: 2)
-event4 = Event.create(name: "Birthday4", start_time: DateTime.new(2018, 3, 25.25),end_time: DateTime.new(2018, 3, 21.3), calendar_id: 2)
+event1 = Event.create(name: "Birthday1", start_time: DateTime.new(2018, 3, 28.5),end_time: DateTime.new(2018, 3, 26.75), calendar_id: 1)
+event3 = Event.create(name: "Birthday3", start_time: DateTime.new(2018, 3, 29.45),end_time: DateTime.new(2018, 3, 20.5), calendar_id: 1)
+event2 = Event.create(name: "Birthday2", start_time: DateTime.new(2018, 3, 27.25),end_time: DateTime.new(2018, 3, 23.25), calendar_id: 2)
+event4 = Event.create(name: "Birthday4", start_time: DateTime.new(2018, 3, 26.25),end_time: DateTime.new(2018, 3, 21.3), calendar_id: 2)

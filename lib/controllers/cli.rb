@@ -52,11 +52,11 @@ def main_menu(user)
       end
     when menu = :"New Calendar"
       user.new_calendar
-      user.save
+      user.reload
       main_menu(user)
     when menu = :"Create Event"
       user.new_event
-      user.save
+      user.reload
       main_menu(user)
     when menu = :"Change User"
       run
@@ -69,10 +69,8 @@ def view_event_detail(str, user)
   if detail == "Return to Main Menu".colorize(:green)
     main_menu(user)
   elsif detail == "Delete Event".colorize(:red)
-    binding.pry
-    Event.destroy(event.id)
-    binding.pry
-    user.save
+    event.destroy
+    user.reload
     main_menu(user)
     #{FIXME} IMPLEMENT
   else

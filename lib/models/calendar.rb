@@ -14,7 +14,7 @@ class Calendar < ActiveRecord::Base
       q.whitespace = :strip_and_collapse
     end
     entry[:start_time] = ask("Starting Time? (use format YYYY/MM/DD HH:MM) ".colorize(:yellow), DateTime)
-    entry[:end_time] = ask("Ending Time? ".colorize(:yellow), DateTime)
+    entry[:end_time] = ask("Ending Time? ".colorize(:yellow), DateTime) {|q| q.above = entry[:start_time]}
     entry[:calendar_id] = self.id
     Event.create(entry)
 
