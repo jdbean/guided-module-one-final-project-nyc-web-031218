@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
     key = KEY_ARRAY[index]
     entry = {}
     say("Enter the new edit for '#{str}'".colorize(:yellow))
-    entry[key] = ask("New Edit: ".colorize(:yellow))
+    entry[key] = ask("New Edit: ".colorize(:yellow), self[key].class)
     self.update(entry)
     return "#{self.name} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name}"
       #{FIXME} implement highline santized editing

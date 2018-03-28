@@ -14,9 +14,9 @@ ActiveRecord::Schema.define(version: 20180326191813) do
 
   create_table "calendars", force: :cascade do |t|
     t.string "name"
-    t.string "unique_name"
     t.string "description"
     t.integer "user_id"
+    t.string "color"
   end
 
   create_table "events", force: :cascade do |t|

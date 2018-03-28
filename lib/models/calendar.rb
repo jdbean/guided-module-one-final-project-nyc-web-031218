@@ -6,10 +6,10 @@ class Calendar < ActiveRecord::Base
     entry = {}
     say("Enter the following information: ".colorize(:yellow))
     entry[:name] = ask("Name?  ".colorize(:yellow), String)
-    entry[:description] = ask("Enter a description: ".colorize(:yellow)) do |q|
+    entry[:description] = ask("Enter a description: ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:location] = ask("Enter a location: ".colorize(:yellow)) do |q|
+    entry[:location] = ask("Enter a location: ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
     end
     entry[:start_time] = ask("Starting Time? ".colorize(:yellow), DateTime)

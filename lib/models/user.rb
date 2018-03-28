@@ -51,10 +51,7 @@ class User < ActiveRecord::Base
   def select_agenda_item(str)
     objarr = event_object_array_setup
     strarr = event_string_array_setup
-    binding.pry
     objarr[event_string_to_index(str, strarr)]
-    # event.detail_menu
-    #{FIXME} confirm that this command is actually working
   end
 
   def main_menu
@@ -70,16 +67,26 @@ class User < ActiveRecord::Base
     end
   end
 
+  def prepare_colors_string
+    delete_array = [:black, :white, :light_white]
+    custom_color_array = String.colors - delete_array
+  end
+
   def new_calendar
     #{FIXME} POTENTIALLY ALLOW TO GO BACK
       entry = {}
       say("Enter the following information: ".colorize(:yellow))
-      entry[:name] = ask("Name? ".colorize(:yellow))
-      entry[:description] = ask("Enter a description: ".colorize(:yellow)) do |q|
+      entry[:name] = ask("Name? ".colorize(:yellow), String)
+      entry[:description] = ask("Enter a description: ".colorize(:yellow), String) do |q|
         q.whitespace = :strip_and_collapse
       #{FIXME} Add :color entry and migration, Choose from String.colors array
       end
       entry[:user_id] = self.id
+      colors = prepare_colors_string
+      puts colors.map { |sym| sym.to_s.colorize(sym) }
+      ask("Select calendar color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
+        q.readline = true
+      end
       Calendar.create(entry)
   end
 
