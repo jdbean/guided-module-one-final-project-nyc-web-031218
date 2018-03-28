@@ -2,12 +2,15 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :events, through: :calendars
 
-  def calendars_to_name
+  def calendars_to_name_colored
     calendars.map { |c| c.name.colorize(c.color.to_sym)  }
   end
 
+  def calendar_string_array_setup
+    calendars.map { |c| c.name }
+  end
+
   def event_object_array_setup
-    #{FIXME}EVENTS SHOULD BE AFTER TIME.NOW
     future_events = self.events.select do |event|
       event.start_time > DateTime.now
     end
@@ -51,13 +54,12 @@ class User < ActiveRecord::Base
   def main_menu
     choose do |menu|
       menu.prompt = "Please select from above:  ".colorize(:yellow)
-
       menu.choice(:"View Agenda")
+      menu.choice(:"View Calendars")
       menu.choice(:"New Calendar")
       menu.choice(:"Create Event")
       menu.choice(:"Change User")
       menu.choice("Quit".colorize(:red))
-      # menu.default = :Login
     end
   end
 
@@ -67,7 +69,6 @@ class User < ActiveRecord::Base
   end
 
   def new_calendar
-    #{FIXME} POTENTIALLY ALLOW TO GO BACK
       entry = {}
       say("Enter the following information: ".colorize(:yellow))
       puts ""
@@ -88,7 +89,7 @@ class User < ActiveRecord::Base
   def which_calendar_to_add
     choose do |menu|
       menu.prompt = "Please select the calendar to add:  ".colorize(:yellow)
-      calendars_to_name.each do |c|
+      calendars_to_name_colored.each do |c|
         menu.choice(c)
       end
     end
@@ -96,8 +97,23 @@ class User < ActiveRecord::Base
 
   def new_event
     cal = which_calendar_to_add
-    int = calendars_to_name.index(cal)
+    int = calendars_to_name_colored.index(cal)
     calendars[int].add_event
+  end
+
+  def display_calendars
+    arr = calendar_string_array_setup
+    choose do |menu|
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
+      menu.choice("Return to Main Menu".colorize(:green))
+      arr.each do |s|
+        menu.choice(s)
+      end
+    end
+  end
+
+  def select_calendar_item(str)
+    self.calendars.detect {|c| c.name == str}
   end
 
   def self.create_new_user
