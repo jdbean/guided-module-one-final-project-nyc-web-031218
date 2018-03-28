@@ -39,17 +39,19 @@ def main_menu(user)
     when :Quit
       goodbye
     when menu = :"View Agenda"
-      str = user.view_agenda
-      if str == :"Return to Main Menu"
+      choice = user.view_agenda
+      if choice == :"Return to Main Menu"
         main_menu(user)
       else
-        view_event_detail(str, user)
+        view_event_detail(choice, user)
       end
     when menu = :"New Calendar"
       user.new_calendar
+      user.save
       main_menu(user)
     when menu = :"Create Event"
       user.new_event
+      user.save
       main_menu(user)
     when menu = :"Change User"
       run

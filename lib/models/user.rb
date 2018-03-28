@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   def event_string_array_setup
     eve = event_object_array_setup
     eve[0..9].map do |event|
-      "#{event.name} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date} - #{event.calendar.name})"
+      "#{event.name} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date}) - #{event.calendar.name}"
     end
   end
 
@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   def select_agenda_item(str)
     objarr = event_object_array_setup
     strarr = event_string_array_setup
-    event = objarr[event_string_to_index(str, strarr)]
+    objarr[event_string_to_index(str, strarr)]
     # event.detail_menu
     #{FIXME} confirm that this command is actually working
   end
