@@ -50,6 +50,14 @@ def main_menu(user)
       else
         view_event_detail(choice, user)
       end
+    when menu =:"View Calendars"
+      choice = user.display_calendars
+      if choice == "Return to Main Menu".colorize(:green)
+        main_menu(user)
+      else
+        view_calendar_detail(choice, user)
+        main_menu(user)
+      end
     when menu = :"New Calendar"
       user.new_calendar
       user.reload
@@ -72,9 +80,21 @@ def view_event_detail(str, user)
     event.destroy
     user.reload
     main_menu(user)
-    #{FIXME} IMPLEMENT
   else
     updated_str = event.detail_edit(detail)
     view_event_detail(updated_str, user)
+  end
+end
+
+def view_calendar_detail(str, user)
+  calendar = user.select_calendar_item(str)
+  detail = calendar.calendar_detail_menu
+  if detail == "Return to Main Menu".colorize(:green)
+    main_menu(user)
+  else detail == "Delete Event".colorize(:red)
+    calendar.destroy
+    user.reload
+    main_menu(user)
+
   end
 end
