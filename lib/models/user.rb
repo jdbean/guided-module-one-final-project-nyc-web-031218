@@ -2,13 +2,7 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :events, through: :calendars
 
-  def auth
-    password = ask("Enter your password:  ".colorize(:yellow)) { |q| q.echo = "*" }
-    if password == self.password
-      self
-    else auth
-    end
-  end
+
 
   def calendars_to_name
     calendars.map { |c| c.name.colorize(c.color.to_sym)  }
