@@ -20,19 +20,11 @@ class Event < ActiveRecord::Base
   def detail_edit(str)
     index = put_event_detail_strings_in_array.index(str)
     key = KEY_ARRAY[index]
-    binding.pry
     entry = {}
-    say("Enter the new edit for #{str}".colorize(:yellow))
+    say("Enter the new edit for '#{str}'".colorize(:yellow))
     entry[key] = ask("New Edit: ".colorize(:yellow))
-    binding.pry
     self.update(entry)
-    binding.pry
-
-    #
-    # Calendar.create(entry)
-    #
-    # ans = STDIN.gets.chomp
-    # self.update(key "#{ans}")
+    return "#{self.name} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name}"
       #{FIXME} implement highline santized editing
   end
 
@@ -41,25 +33,12 @@ class Event < ActiveRecord::Base
     choose do |menu|
       menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
       menu.choice(:"Return to Main Menu")
+      menu.choice(:"Delete Event")
       arr.each do |s|
         menu.choice(s)
       end
     end
   end
-
-  # def edit_event
-  #   hash = {self.name => "Name: #{self.name}",
-  #   self.description => "Description: #{self.description}",
-  #   self.location => "Location: #{self.location}",
-  #   self.start_time => "Time: #{self.start_time} to #{self.end_time}",
-  #   self.calendar => "Calendar: #{self.calendar.name}"}
-  #
-  #   hash.each_with_index do |(key,value), index|
-  #     puts "#{index + 1 }) #{value}"
-  #   end
-  #   puts "Which field would you like to edit?".colorize(:yellow)
-  #   num = STDIN.gets.chomp
-  # end
 
 
 end
