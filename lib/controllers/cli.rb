@@ -1,5 +1,5 @@
 def welcome
- puts "Hi! Welcome to the agenda manager cli!".colorize(:green)
+ puts "Hi! Welcome to the agenda manager CLI!".colorize(:green)
 end
 
 def new_or_login_prompt
@@ -56,6 +56,7 @@ def main_menu(user)
         view_event_detail(choice, user)
       end
     when menu =:"View Calendars"
+      system "clear"
       choice = user.display_calendars
       if choice == "Return to Main Menu".colorize(:green)
         system "clear"
@@ -63,6 +64,7 @@ def main_menu(user)
       else
         system "clear"
         view_calendar_detail(choice, user)
+        user.reload
         main_menu(user)
       end
     when menu = :"New Calendar"

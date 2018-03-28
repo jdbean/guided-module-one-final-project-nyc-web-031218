@@ -46,6 +46,7 @@ class Calendar < ActiveRecord::Base
   end
 
   def calendar_detail_menu
+    system "clear"
     choose do |menu|
       menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
       menu.choice("Return to Main Menu".colorize(:green))
