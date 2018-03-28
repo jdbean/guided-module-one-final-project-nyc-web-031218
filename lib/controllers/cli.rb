@@ -43,31 +43,40 @@ def main_menu(user)
   menu = user.main_menu
   case menu
     when "Quit".colorize(:red)
+      system "clear"
       goodbye
     when menu = :"View Agenda"
+      system "clear"
       choice = user.view_agenda
       if choice == "Return to Main Menu".colorize(:green)
+        system "clear"
         main_menu(user)
       else
+        system "clear"
         view_event_detail(choice, user)
       end
     when menu =:"View Calendars"
       choice = user.display_calendars
       if choice == "Return to Main Menu".colorize(:green)
+        system "clear"
         main_menu(user)
       else
+        system "clear"
         view_calendar_detail(choice, user)
         main_menu(user)
       end
     when menu = :"New Calendar"
+      system "clear"
       user.new_calendar
       user.reload
       main_menu(user)
     when menu = :"Create Event"
+      system "clear"
       user.new_event
       user.reload
       main_menu(user)
     when menu = :"Change User"
+      system "clear"
       run
   end
 end
@@ -76,13 +85,17 @@ def view_event_detail(str, user)
   event = user.select_agenda_item(str)
   detail = event.detail_menu
   if detail == "Return to Main Menu".colorize(:green)
+    system "clear"
     main_menu(user)
   elsif detail == "Delete Event".colorize(:red)
+    system "clear"
     event.destroy
     user.reload
     main_menu(user)
   else
+    system "clear"
     updated_str = event.detail_edit(detail)
+    system "clear"
     view_event_detail(updated_str, user)
   end
 end
@@ -91,11 +104,16 @@ def view_calendar_detail(str, user)
   calendar = user.select_calendar_item(str)
   detail = calendar.calendar_detail_menu
   if detail == "Return to Main Menu".colorize(:green)
+    system "clear"
     main_menu(user)
-  else detail == "Delete Event".colorize(:red)
+  elsif detail == "Delete Event".colorize(:red)
     calendar.destroy
     user.reload
+    system "clear"
     main_menu(user)
-
+  else
+    system "clear"
+    updated_str = calendar.calendar_detail_edit(detail)
+    binding.pry
   end
 end
