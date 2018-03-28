@@ -27,7 +27,7 @@ end
 
 def prompt_user
   users_array = User.all.map { |o| o.username} # move to method of User model
-  ask("Select users: ".colorize(:yellow), users_array) do |q|
+  ask("Select user (press tab key to autocomplete): ".colorize(:yellow), users_array) do |q|
     q.readline = true
   end
 end
@@ -36,11 +36,11 @@ def main_menu(user)
   puts "Welcome #{user.name}!".colorize(:green)
   menu = user.main_menu
   case menu
-    when :Quit
+  when "Quit".colorize(:red)
       goodbye
     when menu = :"View Agenda"
       choice = user.view_agenda
-      if choice == :"Return to Main Menu"
+      if choice == "Return to Main Menu".colorize(:green)
         main_menu(user)
       else
         view_event_detail(choice, user)
@@ -61,8 +61,10 @@ end
 def view_event_detail(str, user)
   event = user.select_agenda_item(str)
   detail = event.detail_menu
-  if detail == :"Return to Main Menu"
+  if detail == "Return to Main Menu".colorize(:green)
     main_menu(user)
+  elsif detail == "Delete Event".colorize(:red)
+    #{FIXME} IMPLEMENT
   else
     updated_str = event.detail_edit(detail)
     view_event_detail(updated_str, user)

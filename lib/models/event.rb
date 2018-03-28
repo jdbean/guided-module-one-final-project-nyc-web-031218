@@ -32,8 +32,8 @@ class Event < ActiveRecord::Base
     arr = put_event_detail_strings_in_array
     choose do |menu|
       menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice(:"Return to Main Menu")
-      menu.choice(:"Delete Event")
+      menu.choice("Return to Main Menu".colorize(:green))
+      menu.choice("Delete Event".colorize(:red))
       arr.each do |s|
         menu.choice(s)
       end

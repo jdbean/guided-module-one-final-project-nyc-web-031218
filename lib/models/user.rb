@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   end
 
   def calendars_to_name
-    calendars.map { |c| c.name  }
+    calendars.map { |c| c.name.colorize(c.color.to_sym)  }
   end
 
   def event_object_array_setup
@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   def event_string_array_setup
     eve = event_object_array_setup
     eve[0..8].map do |event|
-      "#{event.name} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date}) - #{event.calendar.name}"
+      "#{event.name.colorize(event.calendar.color.to_sym)} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date}) - #{event.calendar.name.colorize(event.calendar.color.to_sym)}"
     end
   end
 
@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     choose do |menu|
       menu.prompt = "Please select from above or type 1 to return to main menu:  ".colorize(:yellow)
       #{FIXME} NEED better implementation for return to main menu"
-      menu.choice(:"Return to Main Menu")
+      menu.choice("Return to Main Menu".colorize(:green))
       strarr.each do |s|
         menu.choice(s)
       end
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
       menu.choice(:"New Calendar")
       menu.choice(:"Create Event")
       menu.choice(:"Change User")
-      menu.choice(:Quit)
+      menu.choice("Quit".colorize(:red))
       # menu.default = :Login
     end
   end
@@ -76,15 +76,15 @@ class User < ActiveRecord::Base
     #{FIXME} POTENTIALLY ALLOW TO GO BACK
       entry = {}
       say("Enter the following information: ".colorize(:yellow))
+      puts ""
       entry[:name] = ask("Name? ".colorize(:yellow), String)
       entry[:description] = ask("Enter a description: ".colorize(:yellow), String) do |q|
         q.whitespace = :strip_and_collapse
-      #{FIXME} Add :color entry and migration, Choose from String.colors array
       end
       entry[:user_id] = self.id
       colors = prepare_colors_string
       puts colors.map { |sym| sym.to_s.colorize(sym) }
-      ask("Select calendar color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
+      entry[:color] = ask("Select calendar color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
         q.readline = true
       end
       Calendar.create(entry)
@@ -108,11 +108,12 @@ class User < ActiveRecord::Base
   def self.create_new_user
     entry = {}
     say("Enter the following information: ".colorize(:yellow))
-    entry[:name] = ask("Enter your name: ".colorize(:yellow))
-    entry[:username] = ask("Enter a username: ".colorize(:yellow)) do |q|
+    puts ""
+    entry[:name] = ask("Enter your name: ".colorize(:yellow), String)
+    entry[:username] = ask("Enter a username: ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:password] = ask("Enter a password: ".colorize(:yellow))
+    entry[:password] = ask("Enter a password: ".colorize(:yellow), String)
     User.create(entry)
   end
 end
