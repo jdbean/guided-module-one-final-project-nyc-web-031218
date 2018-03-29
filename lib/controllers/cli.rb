@@ -137,19 +137,19 @@ def view_calendar_detail(str, user)
 end
 
 def confirm_delete(user)
-  confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? ['yes'/'no'] ".colorize(:red)) do |q|
+  confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? ['y'/'n'] ".colorize(:red)) do |q|
     q.limit = 1
     q.validate = /[yn]/i
-    q.responses[:not_valid] = "Invalid entry, please enter yes or no."
+    q.responses[:not_valid] = "Invalid entry, please enter y or n."
   end
   main_menu(user) unless confirm.downcase == 'y'
 end
 
 def confirm_signout(user)
-  confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT [Y/N] ".colorize(:red)) do |q|
+  confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT ['y'/'n'] ".colorize(:red)) do |q|
     q.limit = 1
     q.validate = /[yn]/i
-    q.responses[:not_valid] = "Invalid entry, please enter yes or no."
+    q.responses[:not_valid] = "Invalid entry, please enter y or n."
   end
   main_menu(user) unless confirm.downcase == 'y'
 end
