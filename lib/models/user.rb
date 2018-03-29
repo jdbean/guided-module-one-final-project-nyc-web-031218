@@ -104,7 +104,7 @@ class User < ActiveRecord::Base
   end
 
   def display_calendars
-    arr = calendar_string_array_setup
+    arr = calendars_to_name_colored
     choose do |menu|
       menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
       menu.choice("Return to Main Menu".colorize(:green))
@@ -115,7 +115,7 @@ class User < ActiveRecord::Base
   end
 
   def select_calendar_item(str)
-    self.calendars.detect {|c| c.name == str}
+    self.calendars[self.calendars_to_name_colored.index(str)]
   end
 
   def self.create_new_user
