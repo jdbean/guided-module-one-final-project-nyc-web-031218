@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
 
   def agenda_menu_prompt(strarr)
     choose do |menu|
-      menu.prompt = "Please select from above or type 1 to return to main menu:  ".colorize(:yellow)
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
       menu.choice("Return to Main Menu".colorize(:green))
       strarr.each do |s|
         menu.choice(s)
@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
 
   def main_menu
     choose do |menu|
-      menu.prompt = "Please select from above:  ".colorize(:yellow)
+      menu.prompt = "Please select a field to edit above:  ".colorize(:yellow)
       menu.choice(:"View Agenda")
       menu.choice(:"View Calendars")
       menu.choice(:"Create Calendar")
