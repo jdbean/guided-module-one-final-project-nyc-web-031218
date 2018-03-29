@@ -12,16 +12,16 @@ class Calendar < ActiveRecord::Base
     entry = {}
     say("Enter the following information: ".colorize(:yellow))
     puts ""
-    entry[:name] = ask("Name?  ".colorize(:yellow), String)
-    entry[:description] = ask("Enter a description (limit 70 characters): ".colorize(:yellow), String) do |q|
+    entry[:name] = ask("Event Name:  ".colorize(:yellow), String)
+    entry[:description] = ask("Event Description (limit 70 characters): ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
       q.limit = 70
     end
-    entry[:location] = ask("Enter a location: ".colorize(:yellow), String) do |q|
+    entry[:location] = ask("Event Location: ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:start_time] = ask("Starting Time? (use format YYYY/MM/DD HH:MM) ".colorize(:yellow), DateTime)
-    entry[:end_time] = ask("Ending Time? ".colorize(:yellow), DateTime) {|q| q.above = entry[:start_time]}
+    entry[:start_time] = ask("Starting Time (YYYY/MM/DD HH:MM): ".colorize(:yellow), DateTime)
+    entry[:end_time] = ask("Ending Time (YYYY/MM/DD HH:MM): ".colorize(:yellow), DateTime) {|q| q.above = entry[:start_time]}
     entry[:calendar_id] = self.id
     Event.create(entry)
   end
@@ -31,6 +31,8 @@ class Calendar < ActiveRecord::Base
     entry = {}
     if key == :color
       colors = prepare_colors_string
+      puts "Color Options:"
+      puts "---------------"
       puts colors.map { |sym| sym.to_s.colorize(sym) }
       entry[:color] = ask("Select calendar color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
         q.readline = true

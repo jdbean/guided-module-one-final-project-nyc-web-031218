@@ -72,15 +72,17 @@ class User < ActiveRecord::Base
       entry = {}
       say("Enter the following information: ".colorize(:yellow))
       puts ""
-      entry[:name] = ask("Name? ".colorize(:yellow), String)
-      entry[:description] = ask("Enter a description (limit 70 characters): ".colorize(:yellow), String) do |q|
+      entry[:name] = ask("Calendar Name: ".colorize(:yellow), String)
+      entry[:description] = ask("Calendar Description (limit 70 characters): ".colorize(:yellow), String) do |q|
         q.whitespace = :strip_and_collapse
         q.limit = 70
       end
       entry[:user_id] = self.id
       colors = prepare_colors_string
+      puts "Color Options:"
+      puts "---------------"
       puts colors.map { |sym| sym.to_s.colorize(sym) }
-      entry[:color] = ask("Select calendar color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
+      entry[:color] = ask("Calendar Color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
         q.readline = true
       end
       Calendar.create(entry)
@@ -88,7 +90,7 @@ class User < ActiveRecord::Base
 
   def which_calendar_to_add
     choose do |menu|
-      menu.prompt = "Please select the calendar to add:  ".colorize(:yellow)
+      menu.prompt = "Which calendar would you like to add this event to? ".colorize(:yellow)
       calendars_to_name_colored.each do |c|
         menu.choice(c)
       end

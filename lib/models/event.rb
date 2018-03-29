@@ -29,7 +29,7 @@ class Event < ActiveRecord::Base
     if key == :end_time
       entry[key] = ask("(YYYY/MM/DD HH:MM)".colorize(:yellow), self[key].class){|q| q.above = self[:start_time]}
     elsif key == :calendar
-      calendar = ask("Which calendar would you like to send this to? ".colorize(:yellow), user.calendar_string_array_setup)do |q|
+      calendar = ask("Which calendar would you like to send this to? (Press tab for autocomplete) ".colorize(:yellow), user.calendar_string_array_setup)do |q|
         q.readline = true
       end
     entry[:calendar] = Calendar.find_by(:name => "#{calendar}")

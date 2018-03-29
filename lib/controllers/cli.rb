@@ -105,12 +105,12 @@ def view_event_detail(str, user)
 end
 
 def confirm_delete(user)
-  confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? [Y/N] ") { |yn| yn.limit = 1, yn.validate = /[yn]/i }
+  confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
   main_menu(user) unless confirm.downcase == 'y'
 end
 
 def confirm_signout(user)
-  confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT [Y/N] ") { |yn| yn.limit = 1, yn.validate = /[yn]/i }
+  confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
   main_menu(user) unless confirm.downcase == 'y'
 end
 
