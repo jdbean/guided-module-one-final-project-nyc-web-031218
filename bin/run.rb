@@ -2,6 +2,7 @@ require_relative '../config/environment'
 
 def run
   system "clear"
+  welcome
   choice = new_or_login_prompt
   case choice
     when :Quit
@@ -10,7 +11,6 @@ def run
     when :"New Account"
       system "clear"
       User.create_new_user
-      puts "==================="
       run
     when :Login
       user = User.find_by(username: prompt_user)
@@ -20,11 +20,9 @@ def run
       else
         system "clear"
         puts "TOO MANY INCORRECT LOGIN ATTEMPTS".colorize(:red)
-        puts "==================="
         run
       end
   end
 end
 
-welcome
 run

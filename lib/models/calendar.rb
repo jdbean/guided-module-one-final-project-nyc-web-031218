@@ -27,7 +27,6 @@ class Calendar < ActiveRecord::Base
   end
 
   def calendar_detail_edit(detail)
-    binding.pry
     key = detail.split(":")[0].downcase.to_sym
     entry = {}
     if key == :color
@@ -43,6 +42,7 @@ class Calendar < ActiveRecord::Base
     end
     self.update(entry)
     self.reload
+    return self.name
   end
 
   def chronological_cal

@@ -12,7 +12,6 @@ def new_or_login_prompt
   end
 end
 
-
 def auth(user)
   counter = 3
   while counter > 0
@@ -25,8 +24,8 @@ def auth(user)
 end
 
 def goodbye
-  puts "Thanks for using the Agenda Manager cli.".colorize(:green)
-  puts "Please come back soon to check your schedule.".colorize(:red)
+  puts "Thanks for using the Agenda Manager CLI!".colorize(:green)
+  puts "Please come back soon to check your schedule!".colorize(:red)
   abort
 end
 
@@ -38,10 +37,12 @@ def prompt_user
 end
 
 def main_menu(user)
+  system "clear"
   puts "Welcome #{user.name}!".colorize(:green)
   menu = user.main_menu
   case menu
     when "Quit".colorize(:red)
+      confirm_signout(user)
       system "clear"
       goodbye
     when menu = :"View Agenda"
@@ -66,7 +67,7 @@ def main_menu(user)
         user.reload
         main_menu(user)
       end
-    when menu = :"New Calendar"
+    when menu = :"Create Calendar"
       system "clear"
       user.new_calendar
       user.reload
@@ -77,6 +78,7 @@ def main_menu(user)
       user.reload
       main_menu(user)
     when menu = :"Change User"
+      confirm_signout(user)
       system "clear"
       run
   end
@@ -85,11 +87,11 @@ end
 def view_event_detail(str, user)
   event = user.select_agenda_item(str)
   detail = event.detail_menu
-  binding.pry
   if detail == "Return to Main Menu".colorize(:green)
     system "clear"
     main_menu(user)
   elsif detail == "Delete Event".colorize(:red)
+    confirm_delete(user)
     system "clear"
     event.destroy
     user.reload
@@ -102,18 +104,32 @@ def view_event_detail(str, user)
   end
 end
 
+def confirm_delete(user)
+  confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? [Y/N] ") { |yn| yn.limit = 1, yn.validate = /[yn]/i }
+  main_menu(user) unless confirm.downcase == 'y'
+end
+
+def confirm_signout(user)
+  confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT [Y/N] ") { |yn| yn.limit = 1, yn.validate = /[yn]/i }
+  main_menu(user) unless confirm.downcase == 'y'
+end
+
 def view_calendar_detail(str, user)
+  system "clear"
+  user.reload
   calendar = user.select_calendar_item(str)
   detail = calendar.calendar_detail_menu
   if detail == "Return to Main Menu".colorize(:green)
     system "clear"
     main_menu(user)
   elsif detail == "Delete Calendar".colorize(:red)
+    confirm_delete(user)
     calendar.destroy
     user.reload
     system "clear"
     main_menu(user)
   elsif detail == "See All Events".colorize(:green)
+    system "clear"
     cal_events = calendar.chronological_cal.map do |event|
       event.display_nicely
     end
@@ -122,12 +138,13 @@ def view_calendar_detail(str, user)
       system "clear"
       main_menu(user)
     else
+      system "clear"
       view_event_detail(event_to_inspect, user)
     end
-
   else
     system "clear"
     updated_str = calendar.calendar_detail_edit(detail)
-    binding.pry
+    view_calendar_detail(updated_str, user)
+
   end
 end

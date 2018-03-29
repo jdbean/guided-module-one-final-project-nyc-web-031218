@@ -27,7 +27,7 @@ class Event < ActiveRecord::Base
     entry = {}
     say("Enter the new edit for '#{str}'".colorize(:yellow))
     if key == :end_time
-      entry[key] = ask("New Edit: ".colorize(:yellow), self[key].class){|q| q.above = self[:start_time]}
+      entry[key] = ask("(YYYY/MM/DD HH:MM)".colorize(:yellow), self[key].class){|q| q.above = self[:start_time]}
     elsif key == :calendar
       calendar = ask("Which calendar would you like to send this to? ".colorize(:yellow), user.calendar_string_array_setup)do |q|
         q.readline = true

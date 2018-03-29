@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
       menu.prompt = "Please select from above:  ".colorize(:yellow)
       menu.choice(:"View Agenda")
       menu.choice(:"View Calendars")
-      menu.choice(:"New Calendar")
+      menu.choice(:"Create Calendar")
       menu.choice(:"Create Event")
       menu.choice(:"Change User")
       menu.choice("Quit".colorize(:red))
@@ -125,13 +125,18 @@ class User < ActiveRecord::Base
     entry[:username] = ask("Enter a username: ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:password] = ask("Enter a password: ".colorize(:yellow), String) { |q| q.echo = "*" }
     if users_array.include?(entry[:username])
-      puts "SORRY, That username is already in use. Please try another name".colorize(:red)
-      puts "==================="
+      puts "Sorry. That username is already in use. Please try another username.".colorize(:red)
       self.create_new_user
     else
-      User.create(entry)
+    entry[:password] = ask("Enter a password: ".colorize(:yellow), String) { |q| q.echo = "*" }
+    password = ask("Please confirm your password: ".colorize(:yellow), String) { |q| q.echo = "*" }
+      if password != entry[:password]
+        puts "Please confirm your password and try again!"
+        self.create_new_user
+      else
+        User.create(entry)
+      end
     end
   end
 end
