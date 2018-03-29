@@ -16,6 +16,8 @@ def run
       user = User.find_by(username: prompt_user)
       if auth(user)
         system "clear"
+        puts ""
+        puts ""
         main_menu(user)
       else
         system "clear"
