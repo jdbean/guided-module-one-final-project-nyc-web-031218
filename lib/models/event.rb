@@ -17,6 +17,10 @@ class Event < ActiveRecord::Base
     arr << "Calendar: #{self.calendar.name}"
   end
 
+  def display_nicely
+    "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
+  end
+
   def detail_edit(str)
     index = put_event_detail_strings_in_array.index(str)
     key = KEY_ARRAY[index]
@@ -29,14 +33,12 @@ class Event < ActiveRecord::Base
         q.readline = true
       end
     entry[:calendar] = Calendar.find_by(:name => "#{calendar}")
-      binding.pry
     else
       entry[key] = ask("New Edit: ".colorize(:yellow), self[key].class)
     end
     self.update(entry)
     self.reload
     return "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
-      #{FIXME} implement highline santized editing
   end
 
   def detail_menu

@@ -45,16 +45,31 @@ class Calendar < ActiveRecord::Base
     self.reload
   end
 
+  def chronological_cal
+    events.sort_by {|e| e.start_time}
+  end
+
+  def display_calendar_events(cal_events)
+    choose do |menu|
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
+      menu.choice("Return to Main Menu".colorize(:green))
+      cal_events.each do |e|
+        menu.choice(e)
+      end
+    end
+  end
+
+
   def calendar_detail_menu
     choose do |menu|
       menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
       menu.choice("Return to Main Menu".colorize(:green))
+      menu.choice("See All Events".colorize(:green))
       menu.choice("Delete Calendar".colorize(:red))
       CALENDAR_KEY_ARRAY.each do |s|
         menu.choice("#{s.id2name.capitalize}: #{self[s]}")
       end
     end
-
   end
 
 end

@@ -5,7 +5,6 @@ end
 def new_or_login_prompt
   choose do |menu|
     menu.prompt = "Please select from above to create or login to your account:  ".colorize(:yellow)
-
     menu.choice(:"New Account")
     menu.choice(:Login)
     menu.choice(:Quit)
@@ -86,6 +85,7 @@ end
 def view_event_detail(str, user)
   event = user.select_agenda_item(str)
   detail = event.detail_menu
+  binding.pry
   if detail == "Return to Main Menu".colorize(:green)
     system "clear"
     main_menu(user)
@@ -108,11 +108,23 @@ def view_calendar_detail(str, user)
   if detail == "Return to Main Menu".colorize(:green)
     system "clear"
     main_menu(user)
-  elsif detail == "Delete Event".colorize(:red)
+  elsif detail == "Delete Calendar".colorize(:red)
     calendar.destroy
     user.reload
     system "clear"
     main_menu(user)
+  elsif detail == "See All Events".colorize(:green)
+    cal_events = calendar.chronological_cal.map do |event|
+      event.display_nicely
+    end
+    event_to_inspect = calendar.display_calendar_events(cal_events)
+    if event_to_inspect == "Return to Main Menu".colorize(:green)
+      system "clear"
+      main_menu(user)
+    else
+      view_event_detail(event_to_inspect, user)
+    end
+
   else
     system "clear"
     updated_str = calendar.calendar_detail_edit(detail)

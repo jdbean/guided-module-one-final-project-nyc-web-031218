@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   def event_string_array_setup
     eve = event_object_array_setup
     eve[0..8].map do |event|
-      "#{event.name.colorize(event.calendar.color.to_sym)} -- #{event.start_time.strftime("%H:%M")} (#{event.start_time.to_date}) to #{event.end_time.strftime("%H:%M")} (#{event.end_time.to_date}) - #{event.calendar.name.colorize(event.calendar.color.to_sym)}"
+      event.display_nicely
     end
   end
 
