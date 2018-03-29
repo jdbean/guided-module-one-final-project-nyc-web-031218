@@ -138,12 +138,12 @@ end
 
 def confirm_delete(user)
   confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
-  main_menu(user) unless confirm.downcase == 'y'
+  main_menu(user) unless confirm.downcase == 'y' || confirm.downcase == 'yes'
 end
 
 def confirm_signout(user)
   confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
-  main_menu(user) unless confirm.downcase == 'y'
+  main_menu(user) unless confirm.downcase == 'y'|| confirm.downcase == 'yes'
 end
 
 def goodbye
