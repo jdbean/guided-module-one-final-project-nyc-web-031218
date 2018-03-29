@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 
   def main_menu
     choose do |menu|
-      menu.prompt = "Please select a field to edit above:  ".colorize(:yellow)
+      menu.prompt = "Please select an option from above:  ".colorize(:yellow)
       menu.choice(:"View Agenda")
       menu.choice(:"View Calendars")
       menu.choice(:"Create Calendar")
