@@ -12,6 +12,13 @@ def new_or_login_prompt
   end
 end
 
+def prompt_user
+  users_array = User.all.map { |o| o.username}
+  ask("Select user (press tab key to autocomplete): ".colorize(:yellow), users_array) do |q|
+    q.readline = true
+  end
+end
+
 def auth(user)
   counter = 3
   while counter > 0
@@ -20,19 +27,6 @@ def auth(user)
       return user
     end
     counter -= 1
-  end
-end
-
-def goodbye
-  puts "Thanks for using the Agenda Manager CLI!".colorize(:green)
-  puts "Please come back soon to check your schedule!".colorize(:red)
-  abort
-end
-
-def prompt_user
-  users_array = User.all.map { |o| o.username} # move to method of User model
-  ask("Select user (press tab key to autocomplete): ".colorize(:yellow), users_array) do |q|
-    q.readline = true
   end
 end
 
@@ -108,16 +102,6 @@ def view_event_detail(str, user)
   end
 end
 
-def confirm_delete(user)
-  confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
-  main_menu(user) unless confirm.downcase == 'y'
-end
-
-def confirm_signout(user)
-  confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
-  main_menu(user) unless confirm.downcase == 'y'
-end
-
 def view_calendar_detail(str, user)
   system "clear"
   user.reload
@@ -149,6 +133,21 @@ def view_calendar_detail(str, user)
     system "clear"
     updated_str = calendar.calendar_detail_edit(detail)
     view_calendar_detail(updated_str, user)
-
   end
+end
+
+def confirm_delete(user)
+  confirm = ask("ARE YOU SURE YOU WANT TO DELETE THIS? [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
+  main_menu(user) unless confirm.downcase == 'y'
+end
+
+def confirm_signout(user)
+  confirm = ask("ARE YOU SURE YOU WANT TO SIGN OUT [Y/N] ".colorize(:red)) { |yn| yn.limit = 1, yn.validate = /[yn]/i }
+  main_menu(user) unless confirm.downcase == 'y'
+end
+
+def goodbye
+  puts "Thanks for using the Agenda Manager CLI!".colorize(:green)
+  puts "Please come back soon to check your schedule!".colorize(:red)
+  abort
 end
