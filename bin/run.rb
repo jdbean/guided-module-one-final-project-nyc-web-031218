@@ -15,9 +15,6 @@ def run
     when :Login
       user = User.find_by(username: prompt_user)
       if auth(user)
-        # system "clear"
-        # puts ""
-        # puts ""
         main_menu(user)
       else
         puts "TOO MANY INCORRECT LOGIN ATTEMPTS".colorize(:red)

@@ -31,17 +31,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def view_agenda
-    strarr = event_string_array_setup
-    agenda_menu_prompt(strarr)
-  end
-
-  def select_agenda_item(str)
-    objarr = event_object_array_setup
-    strarr = event_string_array_setup
-    objarr[strarr.index(str)]
-  end
-
   def main_menu
     choose do |menu|
       menu.prompt = "Please select a field to edit above:  ".colorize(:yellow)
@@ -54,6 +43,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def view_agenda
+    strarr = event_string_array_setup
+    agenda_menu_prompt(strarr)
+  end
+
   def agenda_menu_prompt(strarr)
     choose do |menu|
       menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
@@ -62,6 +56,12 @@ class User < ActiveRecord::Base
         menu.choice(s)
       end
     end
+  end
+
+  def select_agenda_item(str)
+    objarr = event_object_array_setup
+    strarr = event_string_array_setup
+    objarr[strarr.index(str)]
   end
 
   def select_calendar_item(str)
