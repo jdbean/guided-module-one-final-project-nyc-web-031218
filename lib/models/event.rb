@@ -1,10 +1,13 @@
 class Event < ActiveRecord::Base
   belongs_to :calendar
-
   KEY_ARRAY = [:name, :description, :location, :start_time, :end_time, :calendar]
 
   def user
     self.calendar.user
+  end
+
+  def display_nicely
+    "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
   end
 
   def put_event_detail_strings_in_array
@@ -17,8 +20,16 @@ class Event < ActiveRecord::Base
     arr << "Calendar: #{self.calendar.name}"
   end
 
-  def display_nicely
-    "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
+  def detail_menu
+    arr = put_event_detail_strings_in_array
+    choose do |menu|
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
+      menu.choice("Return to Main Menu".colorize(:green))
+      menu.choice("Delete Event".colorize(:red))
+      arr.each do |s|
+        menu.choice(s)
+      end
+    end
   end
 
   def detail_edit(str)
@@ -40,18 +51,5 @@ class Event < ActiveRecord::Base
     self.reload
     return "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
   end
-
-  def detail_menu
-    arr = put_event_detail_strings_in_array
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
-      menu.choice("Delete Event".colorize(:red))
-      arr.each do |s|
-        menu.choice(s)
-      end
-    end
-  end
-
 
 end

@@ -8,6 +8,10 @@ class Calendar < ActiveRecord::Base
     custom_color_array = String.colors - delete_array
   end
 
+  def chronological_cal
+    events.sort_by {|e| e.start_time}
+  end
+
   def add_event
     entry = {}
     say("Enter the following information: ".colorize(:yellow))
@@ -24,6 +28,28 @@ class Calendar < ActiveRecord::Base
     entry[:end_time] = ask("Ending Time (YYYY/MM/DD HH:MM): ".colorize(:yellow), DateTime) {|q| q.above = entry[:start_time]}
     entry[:calendar_id] = self.id
     Event.create(entry)
+  end
+
+  def calendar_detail_menu
+    choose do |menu|
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
+      menu.choice("Return to Main Menu".colorize(:green))
+      menu.choice("See All Events".colorize(:green))
+      menu.choice("Delete Calendar".colorize(:red))
+      CALENDAR_KEY_ARRAY.each do |s|
+        menu.choice("#{s.id2name.capitalize}: #{self[s]}")
+      end
+    end
+  end
+
+  def display_calendar_events(cal_events)
+    choose do |menu|
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
+      menu.choice("Return to Main Menu".colorize(:green))
+      cal_events.each do |e|
+        menu.choice(e)
+      end
+    end
   end
 
   def calendar_detail_edit(detail)
@@ -45,33 +71,6 @@ class Calendar < ActiveRecord::Base
     self.update(entry)
     self.reload
     return self.name
-  end
-
-  def chronological_cal
-    events.sort_by {|e| e.start_time}
-  end
-
-  def display_calendar_events(cal_events)
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
-      cal_events.each do |e|
-        menu.choice(e)
-      end
-    end
-  end
-
-
-  def calendar_detail_menu
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
-      menu.choice("See All Events".colorize(:green))
-      menu.choice("Delete Calendar".colorize(:red))
-      CALENDAR_KEY_ARRAY.each do |s|
-        menu.choice("#{s.id2name.capitalize}: #{self[s]}")
-      end
-    end
   end
 
 end

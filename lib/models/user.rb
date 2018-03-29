@@ -2,12 +2,17 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :events, through: :calendars
 
-  def calendars_to_name_colored
-    calendars.map { |c| c.name.colorize(c.color.to_sym)  }
+  def prepare_colors_string
+    delete_array = [:black, :white, :light_white]
+    custom_color_array = String.colors - delete_array
   end
 
   def calendar_string_array_setup
     calendars.map { |c| c.name }
+  end
+
+  def calendars_to_name_colored
+    calendars.map { |c| c.name.colorize(c.color.to_sym)  }
   end
 
   def event_object_array_setup
@@ -26,20 +31,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def agenda_menu_prompt(strarr)
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
-      strarr.each do |s|
-        menu.choice(s)
-      end
-    end
-  end
-
-  def event_string_to_index(str, strarr)
-    strarr.index(str)
-  end
-
   def view_agenda
     strarr = event_string_array_setup
     agenda_menu_prompt(strarr)
@@ -48,7 +39,7 @@ class User < ActiveRecord::Base
   def select_agenda_item(str)
     objarr = event_object_array_setup
     strarr = event_string_array_setup
-    objarr[event_string_to_index(str, strarr)]
+    objarr[strarr.index(str)]
   end
 
   def main_menu
@@ -63,55 +54,19 @@ class User < ActiveRecord::Base
     end
   end
 
-  def prepare_colors_string
-    delete_array = [:black, :white, :light_white]
-    custom_color_array = String.colors - delete_array
-  end
-
-  def new_calendar
-      entry = {}
-      say("Enter the following information: ".colorize(:yellow))
-      puts ""
-      entry[:name] = ask("Calendar Name: ".colorize(:yellow), String)
-      entry[:description] = ask("Calendar Description (limit 70 characters): ".colorize(:yellow), String) do |q|
-        q.whitespace = :strip_and_collapse
-        q.limit = 70
-      end
-      entry[:user_id] = self.id
-      colors = prepare_colors_string
-      puts "Color Options:"
-      puts "---------------"
-      puts colors.map { |sym| sym.to_s.colorize(sym) }
-      entry[:color] = ask("Calendar Color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
-        q.readline = true
-      end
-      Calendar.create(entry)
-  end
-
-  def which_calendar_to_add
+  def agenda_menu_prompt(strarr)
     choose do |menu|
-      menu.prompt = "Which calendar would you like to add this event to? ".colorize(:yellow)
+      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
       menu.choice("Return to Main Menu".colorize(:green))
-      calendars_to_name_colored.each do |c|
-        menu.choice(c)
+      strarr.each do |s|
+        menu.choice(s)
       end
     end
   end
 
-  # def filter_calendar_choice(choice)
-  #   return choice
-  # end
-
-
-  def new_event
-    cal = which_calendar_to_add
-    if cal == "Return to Main Menu".colorize(:green)
-      return "Return Event"
-    else
-      system "clear"
-      int = calendars_to_name_colored.index(cal)
-      calendars[int].add_event
-    end
+  def select_calendar_item(str)
+    name = str.uncolorize
+    self.calendars[self.calendar_string_array_setup.index(name)]
   end
 
   def display_calendars
@@ -125,9 +80,45 @@ class User < ActiveRecord::Base
     end
   end
 
-  def select_calendar_item(str)
-    name = str.uncolorize
-    self.calendars[self.calendar_string_array_setup.index(name)]
+  def new_calendar
+    entry = {}
+    say("Enter the following information: ".colorize(:yellow))
+    puts ""
+    entry[:name] = ask("Calendar Name: ".colorize(:yellow), String)
+    entry[:description] = ask("Calendar Description (limit 70 characters): ".colorize(:yellow), String) do |q|
+      q.whitespace = :strip_and_collapse
+      q.limit = 70
+    end
+    entry[:user_id] = self.id
+    colors = prepare_colors_string
+    puts "Color Options:"
+    puts "---------------"
+    puts colors.map { |sym| sym.to_s.colorize(sym) }
+    entry[:color] = ask("Calendar Color (Press Tab to auto-complete): ".colorize(:yellow), colors) do |q|
+      q.readline = true
+    end
+    Calendar.create(entry)
+  end
+
+  def new_event
+    cal = which_calendar_to_add
+    if cal == "Return to Main Menu".colorize(:green)
+      return "Return Event"
+    else
+      system "clear"
+      int = calendars_to_name_colored.index(cal)
+      calendars[int].add_event
+    end
+  end
+
+  def which_calendar_to_add
+    choose do |menu|
+      menu.prompt = "Which calendar would you like to add this event to? ".colorize(:yellow)
+      menu.choice("Return to Main Menu".colorize(:green))
+      calendars_to_name_colored.each do |c|
+        menu.choice(c)
+      end
+    end
   end
 
   def self.create_new_user
@@ -157,4 +148,5 @@ class User < ActiveRecord::Base
       end
     end
   end
+
 end
