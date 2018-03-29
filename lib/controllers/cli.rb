@@ -74,9 +74,14 @@ def main_menu(user)
       main_menu(user)
     when menu = :"Create Event"
       system "clear"
-      user.new_event
-      user.reload
-      main_menu(user)
+      if filter_calendar_choice == "Return to Main Menu".colorize(:green)
+        system "clear"
+        main_menu(user)
+      else
+        user.new_event
+        user.reload
+      end
+        main_menu(user)
     when menu = :"Change User"
       confirm_signout(user)
       system "clear"
