@@ -127,12 +127,16 @@ class User < ActiveRecord::Base
     end
     if users_array.include?(entry[:username])
       puts "Sorry. That username is already in use. Please try another username.".colorize(:red)
+      sleep(1.5)
+      system "clear"
       self.create_new_user
     else
     entry[:password] = ask("Enter a password: ".colorize(:yellow), String) { |q| q.echo = "*" }
     password = ask("Please confirm your password: ".colorize(:yellow), String) { |q| q.echo = "*" }
       if password != entry[:password]
-        puts "Please confirm your password and try again!"
+        puts "Passwords do not match. Please try again.".colorize(:red)
+        sleep(1.5)
+        system "clear"
         self.create_new_user
       else
         User.create(entry)
