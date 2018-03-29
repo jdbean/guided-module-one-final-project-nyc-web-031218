@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
   def event_string_array_setup
     eve = event_object_array_setup
-    eve[0..8].map do |event|
+    eve[0..9].map do |event|
       event.display_nicely
     end
   end
