@@ -98,14 +98,20 @@ class User < ActiveRecord::Base
     end
   end
 
-  def filter_calendar_choice(choice)
-    return choice
-  end
+  # def filter_calendar_choice(choice)
+  #   return choice
+  # end
+
 
   def new_event
-    cal = filter_calendar_choice(which_calendar_to_add)
-    int = calendars_to_name_colored.index(cal)
-    calendars[int].add_event
+    cal = which_calendar_to_add
+    if cal == "Return to Main Menu".colorize(:green)
+      return "Return Event"
+    else
+      system "clear"
+      int = calendars_to_name_colored.index(cal)
+      calendars[int].add_event
+    end
   end
 
   def display_calendars
