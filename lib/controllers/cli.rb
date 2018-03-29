@@ -1,5 +1,5 @@
 def welcome
- puts "Hi! Welcome to the agenda manager CLI!".colorize(:green)
+ puts "Hi! Welcome to the Agenda Manager CLI!".colorize(:green)
 end
 
 def new_or_login_prompt
