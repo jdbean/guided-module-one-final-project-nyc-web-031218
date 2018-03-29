@@ -91,14 +91,19 @@ class User < ActiveRecord::Base
   def which_calendar_to_add
     choose do |menu|
       menu.prompt = "Which calendar would you like to add this event to? ".colorize(:yellow)
+      menu.choice("Return to Main Menu".colorize(:green))
       calendars_to_name_colored.each do |c|
         menu.choice(c)
       end
     end
   end
 
+  def filter_calendar_choice(choice)
+    return choice
+  end
+
   def new_event
-    cal = which_calendar_to_add
+    cal = filter_calendar_choice(which_calendar_to_add)
     int = calendars_to_name_colored.index(cal)
     calendars[int].add_event
   end
