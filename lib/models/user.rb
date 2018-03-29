@@ -17,10 +17,10 @@ class User < ActiveRecord::Base
 
   def event_object_array_setup
     future_events = self.events.select do |event|
-      event.start_time > DateTime.now
+      event.start_time.in_time_zone('America/New_York') > DateTime.now
     end
     future_events.sort_by do |event|
-      event.start_time
+      event.start_time.in_time_zone('America/New_York')
     end
   end
 

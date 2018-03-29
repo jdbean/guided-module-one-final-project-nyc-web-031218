@@ -9,7 +9,7 @@ class Calendar < ActiveRecord::Base
   end
 
   def chronological_cal
-    events.sort_by {|e| e.start_time}
+    events.sort_by {|e| e.start_time.in_time_zone('America/New_York')}
   end
 
   def add_event
@@ -24,8 +24,8 @@ class Calendar < ActiveRecord::Base
     entry[:location] = ask("Event Location: ".colorize(:yellow), String) do |q|
       q.whitespace = :strip_and_collapse
     end
-    entry[:start_time] = ask("Starting Time (YYYY/MM/DD HH:MM): ".colorize(:yellow), DateTime)
-    entry[:end_time] = ask("Ending Time (YYYY/MM/DD HH:MM): ".colorize(:yellow), DateTime) {|q| q.above = entry[:start_time]}
+    entry[:start_time] = ask("Starting Time (YYYY/MM/DD HH:MM): ".colorize(:yellow), Time)
+    entry[:end_time] = ask("Ending Time (YYYY/MM/DD HH:MM): ".colorize(:yellow), Time) {|q| q.above = entry[:start_time]}
     entry[:calendar_id] = self.id
     Event.create(entry)
   end

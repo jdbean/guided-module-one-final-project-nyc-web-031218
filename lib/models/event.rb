@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   end
 
   def display_nicely
-    "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
+    "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.in_time_zone('America/New_York').strftime("%H:%M")} (#{self.start_time.in_time_zone('America/New_York').to_date}) to #{self.end_time.in_time_zone('America/New_York').strftime("%H:%M")} (#{self.end_time.in_time_zone('America/New_York').to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
   end
 
   def put_event_detail_strings_in_array
@@ -15,8 +15,8 @@ class Event < ActiveRecord::Base
     arr << "Name: #{self.name}"
     arr << "Description: #{self.description}"
     arr << "Location: #{self.location}"
-    arr << "Start Time: #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date})"
-    arr << "End Time: #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date})"
+    arr << "Start Time: #{(self.start_time.in_time_zone('America/New_York')).strftime("%H:%M")} (#{(self.start_time.in_time_zone('America/New_York')).to_date })"
+    arr << "End Time: #{(self.end_time.in_time_zone('America/New_York')).strftime("%H:%M")} (#{(self.end_time.in_time_zone('America/New_York')).to_date})"
     arr << "Calendar: #{self.calendar.name}"
   end
 
@@ -49,7 +49,7 @@ class Event < ActiveRecord::Base
     end
     self.update(entry)
     self.reload
-    return "#{self.name.colorize(self.calendar.color.to_sym)} -- #{self.start_time.strftime("%H:%M")} (#{self.start_time.to_date}) to #{self.end_time.strftime("%H:%M")} (#{self.end_time.to_date}) - #{self.calendar.name.colorize(self.calendar.color.to_sym)}"
+    return self.display_nicely
   end
 
 end
