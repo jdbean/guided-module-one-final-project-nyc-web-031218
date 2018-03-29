@@ -115,7 +115,8 @@ class User < ActiveRecord::Base
   end
 
   def select_calendar_item(str)
-    self.calendars[self.calendars_to_name_colored.index(str)]
+    name = str.uncolorize
+    self.calendars[self.calendar_string_array_setup.index(name)]
   end
 
   def self.create_new_user
