@@ -45,7 +45,7 @@ class Event < ActiveRecord::Base
       calendar = ask("Which calendar would you like to send this to? (Press tab for autocomplete) ".colorize(:yellow), user.calendar_string_array_setup)do |q|
         q.readline = true
       end
-    entry[:calendar] = Calendar.find_by(:name => "#{calendar}")
+    entry[:calendar] = self.user.calendars.find_by(name: "#{calendar}")
     else
       entry[key] = ask("New Edit: ".colorize(:yellow), self[key].class)
     end

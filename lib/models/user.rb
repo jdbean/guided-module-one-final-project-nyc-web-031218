@@ -8,11 +8,11 @@ class User < ActiveRecord::Base
   end
 
   def calendar_string_array_setup
-    calendars.map { |c| c.name }
+    self.calendars.map { |c| c.name }
   end
 
   def calendars_to_name_colored
-    calendars.map { |c| c.name.colorize(c.color.to_sym)  }
+    self.calendars.map { |c| c.name.colorize(c.color.to_sym)  }
   end
 
   def event_object_array_setup
@@ -131,11 +131,10 @@ class User < ActiveRecord::Base
 
   def which_calendar_to_add
     prompt = TTY::Prompt.new
-    choose do |menu|
-      menu.prompt = "Which calendar would you like to add this event to? ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
+      prompt.select ("Which calendar would you like to add this event to? ".colorize(:yellow)) do |menu|
+      menu.choice("Return to Main Menu".colorize(:green) =>"Return to Main Menu".colorize(:green))
       calendars_to_name_colored.each do |c|
-        menu.choice(c)
+        menu.choice(c=>c)
       end
     end
   end
