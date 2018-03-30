@@ -1,5 +1,5 @@
-User.create!(name: "J.D.", username: "jdbean", password: "password")
-User.create!(name: "Eric", username: "erickim", password: "password")
+# User.create!(name: "J.D.", username: "jdbean", password: "password")
+# User.create!(name: "Eric", username: "erickim", password: "password")
 
 Calendar.create(name: "Personal", description: "A calendar for my personal events", user_id: 1, color: "blue")
 Calendar.create(name: "Work", description: "My work events", user_id: 1, color: "magenta")
