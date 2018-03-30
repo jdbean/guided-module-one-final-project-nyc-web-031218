@@ -5,14 +5,14 @@ def run
   welcome
   choice = new_or_login_prompt
   case choice
-    when :Quit
+  when "Quit"
         system "clear"
         goodbye
-    when :"New Account"
+    when "New Account"
       system "clear"
       User.create_new_user
       run
-    when :Login
+    when "Login"
       user = User.find_by(username: prompt_user)
       if auth(user)
         main_menu(user)

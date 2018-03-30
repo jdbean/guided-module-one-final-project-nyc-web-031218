@@ -3,12 +3,11 @@ def welcome
 end
 
 def new_or_login_prompt
-  choose do |menu|
-    menu.prompt = "Please select from above to create or login to your account:  ".colorize(:yellow)
-    menu.choice(:Login)
-    menu.choice(:"New Account")
-    menu.choice(:Quit)
-    menu.default = :Login
+  prompt = TTY::Prompt.new
+  prompt.select ("Please select from below to create or login to your account:  ".colorize(:yellow)) do |menu|
+    menu.choice "Login" => "Login"
+    menu.choice "New Account" => "New Account"
+    menu.choice "Quit" => "Quit"
   end
 end
 
@@ -35,7 +34,7 @@ def main_menu(user)
   puts "Welcome #{user.name}!".colorize(:green)
   menu = user.main_menu
   case menu
-    when "Quit".colorize(:red)
+  when :"Quit"
       confirm_signout(user)
       system "clear"
       goodbye

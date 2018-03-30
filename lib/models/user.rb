@@ -32,15 +32,15 @@ class User < ActiveRecord::Base
   end
 
   def main_menu
-    choose do |menu|
-      menu.prompt = "Please select an option from above:  ".colorize(:yellow)
-      menu.choice(:"View Agenda")
-      menu.choice(:"View Calendars")
-      menu.choice(:"Create Calendar")
-      menu.choice(:"Create Event")
-      menu.choice(:"Change User")
-      menu.choice("Quit".colorize(:red))
-    end
+    prompt = TTY::Prompt.new
+      prompt.select ("Please select an option from below:  ".colorize(:yellow)) do |menu|
+        menu.choice "View Agenda" => :"View Agenda"
+        menu.choice "View Calendars" => :"View Calendars"
+        menu.choice "Create Calendar" => :"Create Calendar"
+        menu.choice "Create Event" => :"Create Event"
+        menu.choice "Change User" => :"Change User"
+        menu.choice "Quit".colorize(:red) => :"Quit"
+      end
   end
 
   def view_agenda
@@ -49,11 +49,11 @@ class User < ActiveRecord::Base
   end
 
   def agenda_menu_prompt(strarr)
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
+    prompt = TTY::Prompt.new
+    prompt.select ("Please select from above to edit or to return to main menu:  ".colorize(:yellow)) do |menu|
       menu.choice("Return to Main Menu".colorize(:green))
       strarr.each do |s|
-        menu.choice(s)
+        menu.choice(s => s)
       end
     end
   end
@@ -71,11 +71,11 @@ class User < ActiveRecord::Base
 
   def display_calendars
     arr = calendars_to_name_colored
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
+    prompt = TTY::Prompt.new
+    prompt.select ("Please select from above to edit or to return to main menu:  ".colorize(:yellow)) do |menu|
       menu.choice("Return to Main Menu".colorize(:green))
       arr.each do |s|
-        menu.choice(s)
+        menu.choice(s => s)
       end
     end
   end
