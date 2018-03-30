@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 20180326191813) do
     t.string "name"
     t.string "description"
     t.string "location"
-    t.time "start_time"
-    t.time "end_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.integer "calendar_id"
   end
 
