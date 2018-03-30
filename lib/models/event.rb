@@ -22,12 +22,12 @@ class Event < ActiveRecord::Base
 
   def detail_menu
     arr = put_event_detail_strings_in_array
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
-      menu.choice("Delete Event".colorize(:red))
+    prompt = TTY::Prompt.new
+    prompt.select("Pease select an option from below to edit:  ".colorize(:yellow)) do |menu|
+      menu.choice("Return to Main Menu".colorize(:green) => "Return to Main Menu".colorize(:green))
+      menu.choice("Delete Event".colorize(:red)=>"Delete Event".colorize(:red))
       arr.each do |s|
-        menu.choice(s)
+        menu.choice(s=>s)
       end
     end
   end
@@ -39,6 +39,8 @@ class Event < ActiveRecord::Base
     say("Enter the new edit for '#{str}'".colorize(:yellow))
     if key == :end_time
       entry[key] = ask("(YYYY/MM/DD HH:MM)".colorize(:yellow), self[key].class){|q| q.above = self[:start_time]}
+    elsif key == :start_time
+      entry[key] = ask("(YYYY/MM/DD HH:MM)".colorize(:yellow), self[key].class){|q| q.below = self[:end_time]}
     elsif key == :calendar
       calendar = ask("Which calendar would you like to send this to? (Press tab for autocomplete) ".colorize(:yellow), user.calendar_string_array_setup)do |q|
         q.readline = true

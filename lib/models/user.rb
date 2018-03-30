@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :events, through: :calendars
 
   def prepare_colors_string
-    delete_array = [:black, :white, :light_white]
+    delete_array = [:black, :white, :light_white, :default]
     custom_color_array = String.colors - delete_array
   end
 
@@ -24,9 +24,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  def all_event_object_array_setup
+    events.sort_by do |event|
+      event.start_time.in_time_zone('America/New_York')
+    end
+  end
+
   def event_string_array_setup
     eve = event_object_array_setup
     eve[0..9].map do |event|
+      event.display_nicely
+    end
+  end
+
+  def all_event_string_array_setup
+    all_event_object_array_setup.map do |event|
       event.display_nicely
     end
   end
@@ -61,6 +73,12 @@ class User < ActiveRecord::Base
   def select_agenda_item(str)
     objarr = event_object_array_setup
     strarr = event_string_array_setup
+    objarr[strarr.index(str)]
+  end
+
+  def select_all_agenda_item(str)
+    objarr = all_event_object_array_setup
+    strarr = all_event_string_array_setup
     objarr[strarr.index(str)]
   end
 
@@ -112,6 +130,7 @@ class User < ActiveRecord::Base
   end
 
   def which_calendar_to_add
+    prompt = TTY::Prompt.new
     choose do |menu|
       menu.prompt = "Which calendar would you like to add this event to? ".colorize(:yellow)
       menu.choice("Return to Main Menu".colorize(:green))

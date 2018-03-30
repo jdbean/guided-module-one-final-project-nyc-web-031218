@@ -4,7 +4,7 @@ class Calendar < ActiveRecord::Base
   CALENDAR_KEY_ARRAY = [:name, :description, :color]
 
   def prepare_colors_string
-    delete_array = [:black, :white, :light_white]
+    delete_array = [:black, :white, :light_white, :default]
     custom_color_array = String.colors - delete_array
   end
 
@@ -31,23 +31,23 @@ class Calendar < ActiveRecord::Base
   end
 
   def calendar_detail_menu
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
-      menu.choice("See All Events".colorize(:green))
-      menu.choice("Delete Calendar".colorize(:red))
+    prompt = TTY::Prompt.new
+    prompt.select("Pease select an option from below to edit:  ".colorize(:yellow)) do |menu|
+      menu.choice("Return to Main Menu".colorize(:green) => "Return to Main Menu".colorize(:green))
+      menu.choice("See All Events".colorize(:green)=>"See All Events".colorize(:green))
+      menu.choice("Delete Calendar".colorize(:red)=>"Delete Calendar".colorize(:red))
       CALENDAR_KEY_ARRAY.each do |s|
-        menu.choice("#{s.id2name.capitalize}: #{self[s]}")
+        menu.choice("#{s.id2name.capitalize}: #{self[s]}" => "#{s.id2name.capitalize}: #{self[s]}")
       end
     end
   end
 
   def display_calendar_events(cal_events)
-    choose do |menu|
-      menu.prompt = "Please select a field to edit above or type 1 to return to main menu:  ".colorize(:yellow)
-      menu.choice("Return to Main Menu".colorize(:green))
+    prompt = TTY::Prompt.new
+    prompt.select("Pease select an option from below to edit:  ".colorize(:yellow)) do |menu|
+      menu.choice("Return to Main Menu".colorize(:green) => "Return to Main Menu".colorize(:green))
       cal_events.each do |e|
-        menu.choice(e)
+        menu.choice(e => e)
       end
     end
   end

@@ -82,7 +82,7 @@ def main_menu(user)
 end
 
 def view_event_detail(str, user)
-  event = user.select_agenda_item(str)
+  event = user.select_all_agenda_item(str)
   detail = event.detail_menu
   if detail == "Return to Main Menu".colorize(:green)
     system "clear"
