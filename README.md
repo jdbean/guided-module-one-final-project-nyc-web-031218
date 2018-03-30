@@ -6,8 +6,12 @@ To run this program, simply fork or clone this repository. Then, run `bundle ins
 
 ## Notable Dependencies
 
-CLI Agenda Manager makes use of the `colorize` Gem for painting terminal text in ANSI color-set colors and the `highline` Gem for building menus and dialogues.
+CLI Agenda Manager makes use of the `colorize` Gem for painting terminal text in ANSI color-set colors and the `highline` Gem for building menus and dialogues. We also implemented menus using the `tty-prompt` gem.
 
 ## A Note on Password Security
 
 Although user passwords are never printed to the screen in the program they are currently stored in a database in plaintext.
+
+## Contributions
+
+This project is not being actively maintained and is not accepting contributions at this time.
